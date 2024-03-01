@@ -23,6 +23,34 @@ const AuthForm = () => {
     }
     setIsLoading(true);
     if (isLogin) {
+      fetch(`https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyA3xAw52bOr1fcz2EABZVQ8xdEs9k_qURs`,
+        {
+          method: 'POST',
+          body: JSON.stringify({
+            email: enteredEmail,
+            password: enteredPassword,
+            returnSecureToken: true
+          }),
+          headers: {
+            'content-type': 'application/json'
+          }
+        }
+      ).then(res =>{
+        if(res.ok){
+          return res.json().then(data =>{
+            const token = JSON.stringify(data.idToken);
+            console.log(token);
+          })
+        }else{
+          return res.json().then((data) => {
+            let errorMessage = ' failed';
+            // if(data && data.error && data.error.message){
+            //   errorMessage = data.error.message;
+            // }
+            alert(errorMessage);
+          });
+        }
+      })
 
     } else {
       fetch(`https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyA3xAw52bOr1fcz2EABZVQ8xdEs9k_qURs`,
