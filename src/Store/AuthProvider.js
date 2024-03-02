@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+
 import AuthContext from "./Auth-Context";
 
 const AuthProvider = (props) => {
@@ -10,6 +11,12 @@ const AuthProvider = (props) => {
     const loginHandler = (token) => {
         setToken(token);
         localStorage.setItem('token', token);
+        setTimeout(() => {
+            logoutHandler();
+            // Show alert after 1 minute
+            alert("Your token has expired. Please log in again.");
+        }, 1 * 60 * 1000); // 1 minute in milliseconds
+
     };
 
     const logoutHandler = () => {
